@@ -5,9 +5,9 @@ sortips()
 	sort -t. -k1,1n -k2,2n -k3,3n -k4,4n | uniq
 }
 
-CRUMBS_DIR="/root/.crumbs"
-LOG='initial-setup.log'
 WORKING_DIR=$1
+CRUMBS_DIR="/root/.crumbs"
+LOG="${WORKING_DIR}/initial-setup.log"
 DATA_DIR="${WORKING_DIR}/.raw_data"
 
 if [ ! -d ${CRUMBS_DIR} ]; then
@@ -41,7 +41,7 @@ fi
 pushd $WORKING_DIR
 
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" >> $LOG
-echo "=				(¯\`·._.·[ START INITIAL-SETUP LOG  ]·._.·´¯)" >> $LOG
+echo "=			(¯\`·._.·[ START INITIAL-SETUP LOG  ]·._.·´¯)" >> $LOG
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" >> $LOG
 echo "LOG=${LOG}" >> $LOG
 echo "WORKING_DIR=${WORKING_DIR}" >> $LOG
@@ -178,6 +178,7 @@ while [[ $(screen -ls | grep -c "Detached") > 0 ]]; do
 	sleep 10
 done
 echo "done." | tee -a $LOG
+echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" >> $LOG
 if [ -e ${CRUMBS_DIR}/finalsort.done ]; then
 	echo "Final sorting is done."
 else
@@ -208,6 +209,10 @@ else
 	touch ${CRUMBS_DIR}/finalsort.done
 fi
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" >> $LOG
-echo "=				(¯\`·._.·[ END INITIAL-SETUP LOG ]·._.·´¯)" >> $LOG
+echo -n "Cleaning up crumbs....."
+rm -rf ${CRUMBS_DIR}
+echo "done."
+echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" >> $LOG
+echo "=			(¯\`·._.·[ END INITIAL-SETUP LOG ]·._.·´¯)" >> $LOG
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" >> $LOG
 
